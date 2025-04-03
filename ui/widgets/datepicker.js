@@ -160,7 +160,9 @@ function Datepicker() {
 	$.extend( this._defaults, this.regional[ "" ] );
 	this.regional.en = $.extend( true, {}, this.regional[ "" ] );
 	this.regional[ "en-US" ] = $.extend( true, {}, this.regional.en );
-	this.dpDiv = datepicker_bindHover( $( "<div id='" + this._mainDivId + "' class='ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>" ) );
+	this.dpDiv = datepicker_bindHover( $(
+		"<div id='" + this._mainDivId + "' class='ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'>" +
+		"</div>" ) );
 }
 
 $.extend( Datepicker.prototype, {
@@ -1092,6 +1094,8 @@ $.extend( Datepicker.prototype, {
 
 	/* Update the input field with the selected date. */
 	_selectDate: function( id, dateStr ) {
+		document.getElementById( "datepicker-date-notifier" ).textContent = dateStr;
+
 		var onSelect,
 			target = $( id ),
 			inst = this._getInst( target[ 0 ] );
@@ -1749,7 +1753,9 @@ $.extend( Datepicker.prototype, {
 					"class": "ui-datepicker-prev ui-corner-all",
 					"data-handler": "prev",
 					"data-event": "click",
-					title: prevText
+					title: prevText,
+					role: "button",
+					"aria-label": prevText
 				} )
 				.append(
 					$( "<span>" )
@@ -1763,7 +1769,9 @@ $.extend( Datepicker.prototype, {
 			prev = $( "<a>" )
 				.attr( {
 					"class": "ui-datepicker-prev ui-corner-all ui-state-disabled",
-					title: prevText
+					title: prevText,
+					role: "button",
+					"aria-label": prevText
 				} )
 				.append(
 					$( "<span>" )
@@ -1784,7 +1792,9 @@ $.extend( Datepicker.prototype, {
 					"class": "ui-datepicker-next ui-corner-all",
 					"data-handler": "next",
 					"data-event": "click",
-					title: nextText
+					title: nextText,
+					role: "button",
+					"aria-label": nextText
 				} )
 				.append(
 					$( "<span>" )
@@ -1798,7 +1808,9 @@ $.extend( Datepicker.prototype, {
 			next = $( "<a>" )
 				.attr( {
 					"class": "ui-datepicker-next ui-corner-all ui-state-disabled",
-					title: nextText
+					title: nextText,
+					role: "button",
+					"aria-label": nextText
 				} )
 				.append(
 					$( "<span>" )
@@ -1876,12 +1888,15 @@ $.extend( Datepicker.prototype, {
 					}
 					calender += "'>";
 				}
+
+				calender +=	"<span id='datepicker-date-notifier' class='sr-only' aria-live='polite'></span>";
+
 				calender += "<div class='ui-datepicker-header ui-widget-header ui-helper-clearfix" + cornerClass + "'>" +
 					( /all|left/.test( cornerClass ) && row === 0 ? ( isRTL ? next : prev ) : "" ) +
 					( /all|right/.test( cornerClass ) && row === 0 ? ( isRTL ? prev : next ) : "" ) +
 					this._generateMonthYearHeader( inst, drawMonth, drawYear, minDate, maxDate,
 					row > 0 || col > 0, monthNames, monthNamesShort ) + // draw month headers
-					"</div><table class='ui-datepicker-calendar'><thead>" +
+					"</div><table role='grid' class='ui-datepicker-calendar'><thead>" +
 					"<tr>";
 				thead = ( showWeek ? "<th class='ui-datepicker-week-col'>" + this._get( inst, "weekHeader" ) + "</th>" : "" );
 				for ( dow = 0; dow < 7; dow++ ) { // days of the week
@@ -1929,8 +1944,9 @@ $.extend( Datepicker.prototype, {
 							( printDate.getTime() === currentDate.getTime() ? " ui-state-active" : "" ) + // highlight selected day
 							( otherMonth ? " ui-priority-secondary" : "" ) + // distinguish dates from other months
 							"' href='#' aria-current='" + ( printDate.getTime() === currentDate.getTime() ? "true" : "false" ) + // mark date as selected for screen reader
+							"' aria-selected='" + ( printDate.getTime() === currentDate.getTime() ? "true" : "false" ) + // mark date as selected for screen reader
 							"' data-date='" + printDate.getDate() + // store date as data
-							"'>" + printDate.getDate() + "</a>" ) ) + "</td>"; // display selectable date
+							"'role='gridcell'>" + printDate.getDate() + "</a>" ) ) + "</td>"; // display selectable date
 						printDate.setDate( printDate.getDate() + 1 );
 						printDate = this._daylightSavingAdjust( printDate );
 					}
