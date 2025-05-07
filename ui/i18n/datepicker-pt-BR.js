@@ -16,6 +16,7 @@
 "use strict";
 
 datepicker.regional[ "pt-BR" ] = {
+	openingText: "Escolha uma data do calendário",
 	closeText: "Fechar",
 	prevText: "Anterior",
 	nextText: "Próximo",

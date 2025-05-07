@@ -16,6 +16,7 @@
 "use strict";
 
 datepicker.regional.de = {
+	openingText: "Wählen Sie ein Datum aus dem Kalender",
 	closeText: "Schließen",
 	prevText: "Zurück",
 	nextText: "Vor",

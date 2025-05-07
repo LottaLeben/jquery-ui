@@ -16,6 +16,7 @@
 "use strict";
 
 datepicker.regional[ "en-GB" ] = {
+	openingText: "Choose date from the calendar",
 	closeText: "Done",
 	prevText: "Prev",
 	nextText: "Next",
