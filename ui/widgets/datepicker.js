@@ -87,6 +87,7 @@ function Datepicker() {
 	this._dayOverClass = "ui-datepicker-days-cell-over"; // The name of the day hover marker class
 	this.regional = []; // Available regional settings, indexed by language code
 	this.regional[ "" ] = { // Default regional settings
+		openingText: "Choose date from the calendar",
 		closeText: "Done", // Display text for close link
 		prevText: "Prev", // Display text for previous month link
 		nextText: "Next", // Display text for next month link
@@ -1889,7 +1890,7 @@ $.extend( Datepicker.prototype, {
 					calender += "'>";
 				}
 
-				calender +=	"<span id='datepicker-date-notifier' class='sr-only' aria-live='polite'></span>";
+				calender +=	"<span id='datepicker-date-notifier' class='sr-only' aria-live='polite'>" + this._get( inst, "openingText" ) + "</span>";
 
 				calender += "<div class='ui-datepicker-header ui-widget-header ui-helper-clearfix" + cornerClass + "'>" +
 					( /all|left/.test( cornerClass ) && row === 0 ? ( isRTL ? next : prev ) : "" ) +
@@ -1946,6 +1947,12 @@ $.extend( Datepicker.prototype, {
 							"' href='#' aria-current='" + ( printDate.getTime() === currentDate.getTime() ? "true" : "false" ) + // mark date as selected for screen reader
 							"' aria-selected='" + ( printDate.getTime() === currentDate.getTime() ? "true" : "false" ) + // mark date as selected for screen reader
 							"' data-date='" + printDate.getDate() + // store date as data
+							"' aria-label='" + new Intl.DateTimeFormat( this.regional, {
+								weekday: "long",  // segunda-feira
+								year: "numeric",  // 2025
+								month: "long",    // maio
+								day: "numeric"    // 7
+							} ).format( printDate ) +
 							"'role='gridcell'>" + printDate.getDate() + "</a>" ) ) + "</td>"; // display selectable date
 						printDate.setDate( printDate.getDate() + 1 );
 						printDate = this._daylightSavingAdjust( printDate );
