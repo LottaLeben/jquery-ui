@@ -2250,11 +2250,11 @@ $.fn.datepicker = function( options ) {
 	} );
 };
 
-$.datepicker = new Datepicker(); // singleton instance
-$.datepicker.initialized = false;
-$.datepicker.uuid = new Date().getTime();
-$.datepicker.version = "@VERSION";
+$.lottaDatepicker = new Datepicker(); // singleton instance
+$.lottaDatepicker.initialized = false;
+$.lottaDatepicker.uuid = new Date().getTime();
+$.lottaDatepicker.version = "@VERSION";
 
-return $.datepicker;
+return $.lottaDatepicker;
 
 } );
